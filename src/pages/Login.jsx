@@ -6,7 +6,7 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Здесь можно добавить логику для обработки входа
+    
     console.log('Username:', username);
     console.log('Password:', password);
   };

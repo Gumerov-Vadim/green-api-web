@@ -11,6 +11,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --app-background-stripe: #00a884;
+  --WDS-app-wash: #dbd8d4;
+  --app-background: #eae6df;
+  --app-background-deeper: #d1d7db;
 }
 
 a {
@@ -28,8 +33,18 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--WDS-app-wash, var(--app-background));
+  background-image: linear-gradient(to bottom, var(--WDS-app-wash, var(--app-background)), var(--WDS-app-wash, var(--app-background-deeper)));
 }
-
+body::after{
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--app-background-stripe);
+  width: 100%;
+  height: 127px;
+}
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
