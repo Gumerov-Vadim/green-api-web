@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -43,6 +43,7 @@ const Editor = ({ onSendMessage }) => {
   };
 
   const handleKeyDown = (event, editor) => {
+    console.log("Key pressed:", event.key);
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       const text = editor.getEditorState().read(() => {
@@ -55,16 +56,16 @@ const Editor = ({ onSendMessage }) => {
       // Очистка содержимого редактора
       editor.update(() => {
         const root = $getRoot();
-        root.clear(); // Удаляем текущее содержимое
-        root.append($createParagraphNode()); // Создаем новый пустой параграф
+        root.clear();
+        root.append($createParagraphNode());
       });
     }
   };
-  
+
   const handleSendMessage = (editor) => {
     if (onSendMessage && editorContent.trim()) {
       onSendMessage(editorContent);
-      setEditorContent(""); // Очистка состояния
+      setEditorContent("");
       editor.update(() => {
         const root = $getRoot();
         root.clear();
@@ -76,30 +77,32 @@ const Editor = ({ onSendMessage }) => {
   const EditorContent = () => {
     const [editor] = useLexicalComposerContext();
 
-    return (
-      <>
-      <ContentEditable
-        className="content-editable outline-none"
-        style={{
+    useEffect(() => {
+      editor.focus();
+    }, [editor]);
 
-          whiteSpace: "pre-wrap",
-          padding: "8px",
-          minHeight: "50px",
-          outline: "none",
-        }}
-        onKeyDown={(event) => handleKeyDown(event, editor)}
-      />
-      <button
+    return (
+      <div className="flex flex-col">
+        {/* Используем onKeyDownCapture вместо onKeyDown */}
+        <ContentEditable
+          className="content-editable outline-none"
+          onKeyDownCapture={(event) => handleKeyDown(event, editor)}
+          style={{
+            whiteSpace: "pre-wrap",
+            padding: "8px",
+            minHeight: "50px",
+            outline: "none",
+          }}
+        />
+        <button
           onClick={() => handleSendMessage(editor)}
           className="mt-2 p-2 bg-blue-500 text-white rounded"
         >
           Отправить
         </button>
-    </>
-  );
+      </div>
+    );
   };
-
-
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -125,6 +128,5 @@ const Editor = ({ onSendMessage }) => {
     </LexicalComposer>
   );
 };
-
 
 export default Editor;
