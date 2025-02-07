@@ -10,7 +10,7 @@ function App() {
       test
       <Login />
     
-      <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+      <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <Editor onSendMessage={handleSendMessage} />
      </div>
     </div>

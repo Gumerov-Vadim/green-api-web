@@ -6,21 +6,16 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getRoot, $createParagraphNode } from "lexical";
+import styles from "./Editor.module.css";
+import Button from "../Button/Button";
 
 const Placeholder = () => (
   <div
-    className="placeholder"
-    style={{
-      position: "absolute",
-      top: "8px",
-      left: "8px",
-      color: "#aaa",
-      pointerEvents: "none",
-      fontSize: "14px",
-    }}
+    className={styles.placeholder}
   >
     Введите сообщение...
   </div>
+
 );
 
 const Editor = ({ onSendMessage }) => {
@@ -43,7 +38,6 @@ const Editor = ({ onSendMessage }) => {
   };
 
   const handleKeyDown = (event, editor) => {
-    console.log("Key pressed:", event.key);
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       const text = editor.getEditorState().read(() => {
@@ -82,43 +76,48 @@ const Editor = ({ onSendMessage }) => {
     }, [editor]);
 
     return (
-      <div className="flex flex-col">
-        {/* Используем onKeyDownCapture вместо onKeyDown */}
+      <div
+      className={styles.editor}
+      >
         <ContentEditable
-          className="content-editable outline-none"
+          className={styles.input}
           onKeyDownCapture={(event) => handleKeyDown(event, editor)}
-          style={{
-            whiteSpace: "pre-wrap",
-            padding: "8px",
-            minHeight: "50px",
-            outline: "none",
-          }}
         />
-        <button
-          onClick={() => handleSendMessage(editor)}
-          className="mt-2 p-2 bg-blue-500 text-white rounded"
+        <Button
+        className={styles.sendButton}
+        data-tab="11" aria-label="Отправить"
+        onClick={() => handleSendMessage(editor)}
         >
-          Отправить
-        </button>
+
+
+          <span aria-hidden="true" data-icon="send" class="">
+            <svg
+            viewBox="0 0 24 24"
+            height="24"
+            width="24"
+            preserveAspectRatio="xMidYMid meet"
+            version="1.1"
+            x="0px"
+            y="0px"
+            enable-background="new 0 0 24 24">
+              <title>send</title>
+              <path fill="currentColor" d="M1.101,21.757L23.8,12.028L1.101,2.3l0.011,7.912l13.623,1.816L1.112,13.845 L1.101,21.757z"></path>
+              </svg>
+            </span>
+          </Button>
       </div>
     );
   };
 
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div
-        className="editor-container border rounded"
-        style={{
-          padding: "0",
-          position: "relative",
-          minHeight: "50px",
-          backgroundColor: "#f9f9f9",
-          border: "1px solid #fff",
-          borderRadius: "8px",
-        }}
+        className={styles.editorContainer}
       >
         <RichTextPlugin
           contentEditable={<EditorContent />}
+
           placeholder={<Placeholder />}
           errorBoundary={(error) => <div>Ошибка редактора: {error.message}</div>}
         />

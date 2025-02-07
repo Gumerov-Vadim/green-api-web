@@ -1,0 +1,41 @@
+.input{
+    padding: 8px;
+    white-space: pre-wrap;
+    min-height: 50px;
+    outline: none;
+    background-color: var(--compose-input-background);
+    border: 1px solid var(--compose-input-border);
+    flex-grow: 1;
+    border-radius: 8px;
+}
+
+.placeholder{
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    color: var(--primary);
+    pointer-events: none;
+    font-size: 14px;
+}
+
+.editorContainer{
+    padding: 0;
+    position: relative;
+    min-height: 50px;
+    background-color: var(--rich-text-panel-background);
+    border-radius: 8px;
+}
+
+.editor{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 784px;
+    padding: 8px;
+}
+
+.sendButton{
+    color: var(--icon);
+    margin: 0 1rem;
+}
