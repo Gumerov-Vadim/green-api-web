@@ -39,3 +39,8 @@
     color: var(--icon);
     margin: 0 1rem;
 }
+
+.contentEditableWrapper {
+  flex-grow: 1;
+  display: block;
+}

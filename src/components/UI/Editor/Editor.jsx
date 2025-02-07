@@ -8,6 +8,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getRoot, $createParagraphNode } from "lexical";
 import styles from "./Editor.module.css";
 import Button from "../Button/Button";
+import SendMessageSVG from "../../SVG/SendMessageSVG";
 
 const Placeholder = () => (
   <div
@@ -75,35 +76,23 @@ const Editor = ({ onSendMessage }) => {
     }, [editor]);
 
     return (
-      <div
-      className={styles.editor}
-      >
-        <ContentEditable
-          className={styles.input}
-          onKeyDownCapture={(event) => handleKeyDown(event, editor)}
-        />
+      <div className={styles.editor}>
+        <div className={styles.contentEditableWrapper}>
+          <ContentEditable
+            className={styles.input}
+            onKeyDownCapture={(event) => handleKeyDown(event, editor)}
+          />
+        </div>
         <Button
-        className={styles.sendButton}
-        data-tab="11" aria-label="Отправить"
-        onClick={() => handleSendMessage(editor)}
+          className={styles.sendButton}
+          data-tab="11"
+          aria-label="Отправить"
+          onClick={() => handleSendMessage(editor)}
         >
-
-
-          <span aria-hidden="true" data-icon="send" class="">
-            <svg
-            viewBox="0 0 24 24"
-            height="24"
-            width="24"
-            preserveAspectRatio="xMidYMid meet"
-            version="1.1"
-            x="0px"
-            y="0px"
-            enable-background="new 0 0 24 24">
-              <title>send</title>
-              <path fill="currentColor" d="M1.101,21.757L23.8,12.028L1.101,2.3l0.011,7.912l13.623,1.816L1.112,13.845 L1.101,21.757z"></path>
-              </svg>
-            </span>
-          </Button>
+          <span aria-hidden="true" data-icon="send" className="">
+            <SendMessageSVG />
+          </span>
+        </Button>
       </div>
     );
   };
