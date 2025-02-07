@@ -47,7 +47,6 @@ const Editor = ({ onSendMessage }) => {
 
       if (onSendMessage) onSendMessage(text);
 
-      // Очистка содержимого редактора
       editor.update(() => {
         const root = $getRoot();
         root.clear();
