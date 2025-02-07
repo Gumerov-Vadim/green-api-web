@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -7,9 +7,25 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getRoot, $createParagraphNode } from "lexical";
 
-const Placeholder = () => <div className="placeholder">Напишите сообщение...</div>;
+const Placeholder = () => (
+  <div
+    className="placeholder"
+    style={{
+      position: "absolute",
+      top: "8px",
+      left: "8px",
+      color: "#aaa",
+      pointerEvents: "none",
+      fontSize: "14px",
+    }}
+  >
+    Введите сообщение...
+  </div>
+);
 
 const Editor = ({ onSendMessage }) => {
+  const [editorContent, setEditorContent] = useState("");
+
   const initialConfig = {
     namespace: "ChatEditor",
     onError: (error) => console.error(error),
@@ -20,7 +36,9 @@ const Editor = ({ onSendMessage }) => {
 
   const handleEditorChange = (editorState) => {
     editorState.read(() => {
-      console.log("Editor content updated!");
+      const root = $getRoot();
+      const content = root.getTextContent();
+      setEditorContent(content);
     });
   };
 
@@ -33,6 +51,7 @@ const Editor = ({ onSendMessage }) => {
       });
 
       if (onSendMessage) onSendMessage(text);
+
       // Очистка содержимого редактора
       editor.update(() => {
         const root = $getRoot();
@@ -41,26 +60,58 @@ const Editor = ({ onSendMessage }) => {
       });
     }
   };
+  
+  const handleSendMessage = (editor) => {
+    if (onSendMessage && editorContent.trim()) {
+      onSendMessage(editorContent);
+      setEditorContent(""); // Очистка состояния
+      editor.update(() => {
+        const root = $getRoot();
+        root.clear();
+        root.append($createParagraphNode());
+      });
+    }
+  };
 
   const EditorContent = () => {
     const [editor] = useLexicalComposerContext();
 
     return (
+      <>
       <ContentEditable
         className="content-editable outline-none"
-        style={{ whiteSpace: "pre-wrap" }}
+        style={{
+
+          whiteSpace: "pre-wrap",
+          padding: "8px",
+          minHeight: "50px",
+          outline: "none",
+        }}
         onKeyDown={(event) => handleKeyDown(event, editor)}
       />
-    );
+      <button
+          onClick={() => handleSendMessage(editor)}
+          className="mt-2 p-2 bg-blue-500 text-white rounded"
+        >
+          Отправить
+        </button>
+    </>
+  );
   };
+
+
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div
-        className="editor-container border rounded p-2"
+        className="editor-container border rounded"
         style={{
+          padding: "0",
+          position: "relative",
           minHeight: "50px",
           backgroundColor: "#f9f9f9",
+          border: "1px solid #fff",
+          borderRadius: "8px",
         }}
       >
         <RichTextPlugin
@@ -74,5 +125,6 @@ const Editor = ({ onSendMessage }) => {
     </LexicalComposer>
   );
 };
+
 
 export default Editor;
