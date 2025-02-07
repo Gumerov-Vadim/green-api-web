@@ -16,6 +16,9 @@
   --WDS-app-wash: #dbd8d4;
   --app-background: #eae6df;
   --app-background-deeper: #d1d7db;
+
+  --compose-input-border: white;
+  --primary: #3b4a54;
 }
 
 a {
