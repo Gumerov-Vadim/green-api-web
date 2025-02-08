@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import getStateInstance from "../api/GetStateInstance";
-
+import getWaSettings from "../api/getWaSettings";
 const useAuth = () => {
     const [authData, setAuthData] = useState(() => {
         const storedData = localStorage.getItem('wa_auth');
+
         return storedData 
           ? JSON.parse(storedData)
           : { idInstance: '', apiToken: '', isLoggedIn: false };
@@ -15,15 +15,13 @@ const useAuth = () => {
 
     const login = async (newIdInstance, newApiToken) => {
         try {
-            const stateInstance = await getStateInstance(newIdInstance, newApiToken);
-            stateInstance.then((data) => {
-                switch (data.stateInstance) {
-
-
-                case 'authorized':
+            const waSettings = await getWaSettings(newIdInstance, newApiToken);
+                switch (waSettings.stateInstance) {
+                    case 'authorized':
                     setAuthData({
                         idInstance: newIdInstance,
                         apiToken: newApiToken,
+                        ...waSettings,
                         isLoggedIn: true
                     });
                 break;  
@@ -42,13 +40,11 @@ const useAuth = () => {
                 default:
                     throw new Error('Упс... Произошла неизвестная ошибка при авторизации');
                 }
-            }).catch((error) => {
-                throw new Error('Упс... Произошла неизвестная ошибка при авторизации');
-            });
-        } catch (error) {
-            throw new Error('Неверный Instance ID или API Token');
-        }
+            } catch (error) {
+                throw new Error('Неверный Instance ID или API Token');
+            }
     };
+
 
 
     const logout = () => {
