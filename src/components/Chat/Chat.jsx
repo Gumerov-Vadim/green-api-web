@@ -7,7 +7,6 @@ const Chat = () => {
     const {authData} = useAuth();
     const {idInstance, apiToken, phone} = authData;
     const data = (async ()=>await getContactInfo(idInstance, apiToken, `${phone}@c.us`))();
-    console.log(data);
 
     const handleSendMessage = (message) => {
         console.log(message);

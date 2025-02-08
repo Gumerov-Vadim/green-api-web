@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const getContactInfo = async (idInstance, apiToken, chatId) => {
-    console.log(idInstance, apiToken, chatId);
     try {
         const response = await axios.post(
             `${import.meta.env.VITE_API_URL}/waInstance${idInstance}/getContactInfo/${apiToken}`,
