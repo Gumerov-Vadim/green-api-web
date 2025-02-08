@@ -2,3 +2,6 @@
     border: none;
     cursor: pointer;
   }
+.button:hover{
+    background-color: var(--button-primary-background-hover);
+}
