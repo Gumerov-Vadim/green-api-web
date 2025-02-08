@@ -1,0 +1,24 @@
+.chat{
+    background-image: url('../../assets/images/chat-background.png');
+}
+.chat-header{
+    background-color: var(--app-background-deeper);
+    background-repeat: repeat;
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    padding: 0.625rem 1rem;
+    width: 100%;
+}
+
+.chat-header-left{
+    display: flex;
+    align-items: center;
+    
+}
+
+.chat-header-left-user{
+    display: flex;
+}

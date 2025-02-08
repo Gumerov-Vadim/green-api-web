@@ -1,27 +1,25 @@
 import { useState, useEffect } from "react";
 import getWaSettings from "../api/getWaSettings";
 const useAuth = () => {
-    const [authData, setAuthData] = useState(() => {
-        const storedData = localStorage.getItem('wa_auth');
+    const [authData, setAuthData] = useState(JSON.parse(localStorage.getItem('wa_auth')) || { idInstance: '', apiToken: '', isLoggedIn: false });
 
-        return storedData 
-          ? JSON.parse(storedData)
-          : { idInstance: '', apiToken: '', isLoggedIn: false };
-      });
+    const saveAuthData = (data) => {
+        setAuthData(data);
+        localStorage.setItem('wa_auth', JSON.stringify(data));
+    };
 
-    useEffect(() => {
-        localStorage.setItem('wa_auth', JSON.stringify(authData));
-    }, [authData]);
-
-    const login = async (newIdInstance, newApiToken) => {
+    const login = (newIdInstance, newApiToken) => {
         try {
-            const waSettings = await getWaSettings(newIdInstance, newApiToken);
-                switch (waSettings.stateInstance) {
+            const waSettings = getWaSettings(newIdInstance, newApiToken);
+
+            waSettings.then(settings => {
+                switch (settings.stateInstance) {
                     case 'authorized':
-                    setAuthData({
+                    saveAuthData({
+
+                        ...settings,
                         idInstance: newIdInstance,
                         apiToken: newApiToken,
-                        ...waSettings,
                         isLoggedIn: true
                     });
                 break;  
@@ -40,15 +38,14 @@ const useAuth = () => {
                 default:
                     throw new Error('Упс... Произошла неизвестная ошибка при авторизации');
                 }
-            } catch (error) {
-                throw new Error('Неверный Instance ID или API Token');
-            }
+            });
+        } catch (error) {
+            throw new Error('Неверный Instance ID или API Token');
+        }
     };
 
-
-
     const logout = () => {
-        setAuthData({
+        saveAuthData({
             idInstance: '',
             apiToken: '',
             isLoggedIn: false
@@ -59,5 +56,3 @@ const useAuth = () => {
 };
 
 export default useAuth;
-
-
