@@ -48,6 +48,9 @@
   --primary: #3b4a54;
   --primary-strong: #111b21; /*цвет имени в чате*/
   --secondary: #667781; /*последние сообщения*/
+  --light-dark: #767676;
+  --button-primary-background: #008069;
+  --button-primary-background-hover: #017561;
 
   --icon: #54656f;
 
@@ -86,6 +89,7 @@ body::after{
   background-color: var(--app-background-stripe);
   width: 100%;
   height: 127px;
+  z-index: -1;
 }
 h1 {
   font-size: 3.2em;

@@ -1,17 +1,18 @@
-import React from 'react';
-import Login from './pages/Login';
-import Editor from './components/UI/Editor/Editor';
+import React, { useContext } from 'react';
+import MainPage from './pages/MainPage/MainPage';
+import useAuth from './hooks/useAuth';
+import AuthContext from './context/AuthContext';
+import Login from './pages/Login/Login';
+
 function App() {
+  const { authData, login, logout } = useAuth();
   const handleSendMessage = (message) => {
     console.log("Отправленное сообщение:", message);
   };
   return (
-    <div>
-    
-      <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <Editor onSendMessage={handleSendMessage} />
-     </div>
-    </div>
+      <AuthContext.Provider value={{ authData, login, logout }}>
+        {authData.isLoggedIn ? <MainPage /> : <Login />}
+      </AuthContext.Provider>
   );
 }
 
