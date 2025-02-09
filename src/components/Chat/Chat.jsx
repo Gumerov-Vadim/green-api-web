@@ -10,6 +10,8 @@ import MessageList from '../MessageList/MessageList';
 import { getChatHistory } from '../../api/getChatHistory';
 import receiveNotification from '../../api/receiveNotification';
 import deleteNotification from '../../api/deleteNotification';
+import sendMessage from '../../api/sendMessage';
+
 
 
 const Chat = ({phone}) => {
@@ -62,43 +64,66 @@ const Chat = ({phone}) => {
     },[idInstance, apiToken, phone]);
 
     //Получение новых сообщений
-
     useEffect(() => {
-
+        let isMounted = true;
+        let timeout;
+        receiveMessage();
         function receiveMessage(){
+            console.log("receiveMessage");
             const notificaation = receiveNotification(idInstance, apiToken);
             
             notificaation.then(not => {
-                console.log(not);
+                if(!isMounted){
+                    return;
+                }
+
+                try{
+                const id = not.body.idMessage;
                 const text = not.body.messageData.textMessageData.textMessage;
                 const isMe = not.body.senderId === `${authData.phone}@c.us`;
                 const withTail = true; // поменять
-                const id = not.body.idMessage;
-                console.log({id, withTail, text, isMe});
-                setMessages(prev => [...prev, {id, withTail, text, isMe}]);
+
+                    setMessages(prev => [...prev, {id, withTail, text, isMe}]);
+                } catch(error){
+                    console.log(`Ошибка получения сообщения: ${error}`);
+                }
 
                 deleteNotification(idInstance, apiToken, not.receiptId).then(response => {
+                    if(response.result){
+                        clearTimeout(timeout);
+                        receiveMessage();
+                    }
 
                 }).catch(error => {
                     console.log(`Ошибка удаления уведомления: ${error}`);
                 });
 
+
             }).catch(error => {
                 console.log(`Ошибка получения уведомления: ${error}`);
+            }).finally(()=>{
+                timeout = setTimeout(receiveMessage, 5000);
             });
         }
 
-        const interval = setInterval(() => {
-            receiveMessage();
-        }, 5000);
-        return () => clearInterval(interval);
 
+        return () => {
+            isMounted = false;
+            clearTimeout(timeout);
+        };
     },[idInstance, apiToken]);
 
 
+
+
     const handleSendMessage = (message) => {
-        console.log(message);
-    } 
+        sendMessage(idInstance, apiToken, `${phone}@c.us`, message).then(response => { // ПОМЕНЯТЬ WITH TAIL
+            setMessages(prev => [...prev, {id:response.idMessage, withTail:true, text:message, isMe:true}]);
+        }).catch(error => {
+            console.log(`Ошибка отправки сообщения: ${error}`);
+        });
+    }
+
 
     return (
         <div className={styles.chat}>
