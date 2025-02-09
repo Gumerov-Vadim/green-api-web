@@ -1,7 +1,49 @@
 .message {
     padding: 10px;
     border-radius: 10px;
-    background-color: #f0f0f0;
     margin-bottom: 2px;
     list-style: none;
+    max-width: 480px;
+    word-break: break-all;
+    position: relative;
 }
+
+.messageTail{
+    position: absolute;
+    top: -4px;
+    width: 8px;
+    height: 13px;
+}
+.messageTailIn{
+    left: -8px;
+    color: var(--incoming-background);
+}
+.messageTailOut{
+    right: -8px;
+    color: var(--outgoing-background);
+}
+
+.messageWithTailOut{
+    margin-top: 12px;
+    border-top-right-radius: 0;
+}
+
+.messageWithTailIn{
+    margin-top: 12px;
+    border-top-left-radius: 0;
+}
+
+.messageOutgoing{
+    background-color: var(--outgoing-background);
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+
+
+.messageIncoming{
+    background-color: var(--incoming-background);
+}
+/* 
+--outgoing-background: #d9fdd3;
+--incoming-background: white; */

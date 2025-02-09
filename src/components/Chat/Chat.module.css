@@ -7,6 +7,9 @@
     height: 100%;
     flex-grow: 1;
     justify-content: space-between;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-left: 1px solid var(--conversation-header-border);
 }
 
 .chatHeader{
@@ -47,4 +50,5 @@
 
 .chatBody{
     flex-grow: 1;
+    overflow-y: auto;
 }

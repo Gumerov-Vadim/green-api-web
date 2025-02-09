@@ -45,18 +45,19 @@ const Chat = ({phone}) => {
     //Загрзка старых сообщений
     useEffect(() => {
         getChatHistory(idInstance, apiToken, `${phone}@c.us`).then(messages => {
+            messages.reverse();
             for(let i = 0; i < messages.length; i++){
                 if(i===0){
                     messages[i].withTail = true;
                     continue;
                 }
-                if(messages[i].type=== messages[i-1].type){
+                if(messages[i].type !== messages[i-1].type){
                     messages[i].withTail = true;
                     continue;
                 }
                 messages[i].withTail = false;
             }
-            setMessages(messages.map(m=>({id:m.idMessage,withTail:m.withTail,text:m.textMessage,isMe:m.type === "outgoing"})).reverse());
+            setMessages(messages.map(m=>({id:m.idMessage,withTail:m.withTail,text:m.textMessage,isMe:m.type === "outgoing"})));
         }).catch(error => {
             console.log(`Ошибка получения истории сообщений: ${error}`);
         });
@@ -69,7 +70,6 @@ const Chat = ({phone}) => {
         let timeout;
         receiveMessage();
         function receiveMessage(){
-            console.log("receiveMessage");
             const notificaation = receiveNotification(idInstance, apiToken);
             
             notificaation.then(not => {
@@ -81,9 +81,8 @@ const Chat = ({phone}) => {
                 const id = not.body.idMessage;
                 const text = not.body.messageData.textMessageData.textMessage;
                 const isMe = not.body.senderId === `${authData.phone}@c.us`;
-                const withTail = true; // поменять
 
-                    setMessages(prev => [...prev, {id, withTail, text, isMe}]);
+                    setMessages(prev => [...prev, {id, withTail:prev.slice(-1)[0].isMe !== isMe, text, isMe}]);
                 } catch(error){
                     console.log(`Ошибка получения сообщения: ${error}`);
                 }

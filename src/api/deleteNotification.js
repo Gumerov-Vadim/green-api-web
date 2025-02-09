@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const deleteNotification = async (idInstance, apiToken, receiptId) => {
-    console.log("deleteNotification", idInstance, apiToken, receiptId);
     try {
         const response = await axios.delete(
 

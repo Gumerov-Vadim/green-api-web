@@ -7,23 +7,23 @@
     border: 1px solid var(--compose-input-border);
     flex-grow: 1;
     border-radius: 8px;
+    max-height: 11.76em;
+    overflow-y: auto;
 }
 
 .placeholder{
     position: absolute;
     top: 16px;
-    left: 16px;
+    left: 48px;
     color: var(--primary);
     pointer-events: none;
     font-size: 14px;
 }
 
 .editorContainer{
-    padding: 0;
+    padding: 0 2rem;
     position: relative;
-    min-height: 50px;
     background-color: var(--rich-text-panel-background);
-    border-radius: 8px;
 }
 
 .editor{
@@ -36,7 +36,7 @@
 
 .sendButton{
     color: var(--icon);
-    margin: 0 1rem;
+    margin: 0 1rem 1rem 1rem;
 }
 
 .contentEditableWrapper {

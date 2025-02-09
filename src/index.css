@@ -49,8 +49,8 @@
   --background-default: white;
   
   --primary: #3b4a54;
-  --primary-strong: #111b21; /*цвет имени в чате*/
-  --secondary: #667781; /*последние сообщения*/
+  --primary-strong: #111b21; 
+  --secondary: #667781; 
   --light-dark: #767676;
   --danger: #ea0038;
   --button-primary-background: #008069;
@@ -68,6 +68,11 @@
   --h-pane-header: 2.75rem;
   --panel-header-background: #f0f2f5;
   --panel-footer-background: #f0f2f5;
+
+  --conversation-header-border: #d1d7db;
+
+  --outgoing-background: #d9fdd3;
+  --incoming-background: white;
 }
 
 a {
@@ -103,4 +108,27 @@ body::after{
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+/* Стили для скроллбара */
+::-webkit-scrollbar {
+  width: 8px; /* Ширина скроллбара */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(11, 20, 26, 0.2); /* Цвет трека */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0); /* Цвет ползунка */
+  border-radius: 4px; /* Закругление углов ползунка */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2); /* Цвет ползунка при наведении */
+}
+
+/* Для Firefox */
+* {
+  scrollbar-width: thin; /* Тонкий скроллбар */
+  scrollbar-color: rgba(11, 20, 26, 0.2) rgba(0, 0, 0, 0); /* Цвет трека и ползунка */
 }
