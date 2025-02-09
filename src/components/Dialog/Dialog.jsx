@@ -21,7 +21,6 @@ const Dialog = ({phone, name, getAvatarWithCache,...props}) => {
     
     return <li
         className={styles.dialog}
-        data-phone={phone}
         {...props}
         >
         <div className={styles.dialogAvatar}>

@@ -13,7 +13,7 @@ import UserAvatar from '../UserAvatar/UserAvatar';
 import AuthContext from '../../context/AuthContext';
 import phoneFormatted from '../../util/phoneFormatted';
 
-const ConversationPanel = () => {
+const ConversationPanel = ({pickConversation}) => {
     const initDialogs = JSON.parse(localStorage.getItem('savedDialogs'))||[];
     const {authData} = useAuth();
     const {idInstance, apiToken, phone:userPhone} = authData;
@@ -26,8 +26,15 @@ const ConversationPanel = () => {
 
     const [avatarCache, setAvatarCache] = useState({});
     const [userAvatar, setUserAvatar] = useState(null);
-
+    
     const { logout } = useContext(AuthContext);
+
+    const onContactClick = (e) => {
+        const li = e.target.closest('li[data-phone]');
+        if (!li) return;
+        const conversation = li.dataset.phone;
+        pickConversation(conversation);
+    };
 
     useEffect(() => {
         const avatar = getAvatar(idInstance, apiToken, `${userPhone}@c.us`);
@@ -118,8 +125,11 @@ const ConversationPanel = () => {
                <DialogsList
                dialogslist={dialogs}
                getAvatarWithCache ={getAvatarWithCache}
+               onContactClick={onContactClick}
                />
             </div>
+
+
 
             <div className={styles.conversationPanelFooter}>
                 <div className={styles.conversationPanelFooterLeft}>

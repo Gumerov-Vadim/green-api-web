@@ -46,7 +46,7 @@ const Chat = ({phone}) => {
                 <div className={styles.chatHeaderLeft}>
                     <div className={styles.chatHeaderLeftUser}>                                            
 
-                        <UserAvatar className={styles.chatHeaderLeftUserAvatar} avatar={userData?.avatar.urlAvatar} />
+                        <UserAvatar className={styles.chatHeaderLeftUserAvatar} avatar={userData?.avatar?.urlAvatar} />
                         <div className={styles.chatHeaderLeftUserName}>
                             <p>{userData?.name||phoneFormatted(phone)}</p>
                         </div>

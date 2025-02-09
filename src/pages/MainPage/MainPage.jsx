@@ -5,11 +5,10 @@ import styles from './MainPage.module.css';
 
 const MainPage = () => {
     const [userId, setUserId] = useState(null);
-    
     return (
         <div className={styles.mainPage}>
             <ConversationPanel pickConversation={setUserId} />
-            <Chat phone={userId} />
+            <Chat phone={userId}/>
         </div>
     )
 }
