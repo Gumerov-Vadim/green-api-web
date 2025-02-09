@@ -39,12 +39,12 @@ npm run build
 npm run preview
 ```
 
-###Live Demo
+### Live Demo
 Access the deployed version: [https://green-api-web.netlify.app/](https://green-api-web.netlify.app/)
 
 ---
 
-###Configuration
+### Configuration
 1. Obtain your API credentials from [Green API Console](https://console.green-api.com/)
 2. Create .env file using the template:
 VITE_API_URL= "apiUrl"
