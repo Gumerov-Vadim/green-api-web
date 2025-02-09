@@ -7,17 +7,18 @@ A web-based client for interacting with the [Green API](https://green-api.com/) 
 - Real-time message updates
 
 ---
-## Getting Started
 
+## Getting Started
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm (v9 or higher)
 
 ---
+
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/your-username/green-api-web.git](https://github.com/Gumerov-Vadim/green-api-web.git)
+   git clone https://github.com/Gumerov-Vadim/green-api-web.git
    ```
 2. Install dependencies:
    ```bash
@@ -42,12 +43,14 @@ npm run preview
 Access the deployed version: [https://green-api-web.netlify.app/](https://green-api-web.netlify.app/)
 
 ---
+
 ###Configuration
 1. Obtain your API credentials from [Green API Console](https://console.green-api.com/)
 2. Create .env file using the template:
 VITE_API_URL= "apiUrl"
 
 ---
+
 ## Tech Stack
 
 ### Core Libraries
@@ -63,4 +66,5 @@ VITE_API_URL= "apiUrl"
 ### Development Tools
 - **Vite**: A fast build tool and development server.
 - **ESLint**: A tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+
 ---
