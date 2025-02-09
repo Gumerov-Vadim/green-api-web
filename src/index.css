@@ -89,7 +89,8 @@ p {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--WDS-app-wash, var(--app-background));
@@ -131,4 +132,11 @@ h1 {
 * {
   scrollbar-width: thin; /* Тонкий скроллбар */
   scrollbar-color: rgba(11, 20, 26, 0.2) rgba(0, 0, 0, 0); /* Цвет трека и ползунка */
+}
+
+@media screen and (min-width: 1660px) {
+  body{
+    padding: 20px;
+    min-height: calc(100vh - 40px);
+  }
 }

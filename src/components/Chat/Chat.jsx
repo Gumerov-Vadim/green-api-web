@@ -112,9 +112,6 @@ const Chat = ({phone}) => {
         };
     },[idInstance, apiToken]);
 
-
-
-
     const handleSendMessage = (message) => {
         sendMessage(idInstance, apiToken, `${phone}@c.us`, message).then(response => { // ПОМЕНЯТЬ WITH TAIL
             setMessages(prev => [...prev, {id:response.idMessage, withTail:true, text:message, isMe:true}]);

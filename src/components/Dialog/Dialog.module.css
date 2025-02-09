@@ -23,4 +23,8 @@
     font-weight: 600;
     border-bottom: 1px solid var(--border-list);
 }
-
+.dialogClose{
+    width: 24px;
+    height: 24px;
+    color: var(--secondary);
+}

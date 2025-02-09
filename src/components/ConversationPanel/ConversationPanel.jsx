@@ -29,15 +29,21 @@ const ConversationPanel = ({pickConversation}) => {
     
     const { logout } = useContext(AuthContext);
 
-    const onContactClick = (e) => {
+    const onContactClick = (e) =>{
         const li = e.target.closest('li[data-phone]');
         if (!li) return;
         const conversation = li.dataset.phone;
+        if(e.target.closest('button[data-close]')){
+            removeDialog(conversation);
+            return;
+        }
+
         pickConversation(conversation);
-    };
+    }
 
     useEffect(() => {
         const avatar = getAvatar(idInstance, apiToken, `${userPhone}@c.us`);
+
         avatar.then(avatar => {
             setUserAvatar(avatar.urlAvatar);
         }).catch(error => {
@@ -85,9 +91,12 @@ const ConversationPanel = ({pickConversation}) => {
         setPhoneNumber('');       
     }
 
-    const removeDialog = (phoneNumber) => {
-        setDialogs(dialogs.filter(dialog => dialog.phone !== phoneNumber));
+    function removeDialog(phoneNumber){
+        console.log(phoneNumber,dialogs.map(dialog => +dialog));
+        setDialogs(dialogs.filter(dialog => +dialog !== +phoneNumber));
     }
+
+
 
     useEffect(() => {
         localStorage.setItem('savedDialogs', JSON.stringify(dialogs));
@@ -128,8 +137,6 @@ const ConversationPanel = ({pickConversation}) => {
                onContactClick={onContactClick}
                />
             </div>
-
-
 
             <div className={styles.conversationPanelFooter}>
                 <div className={styles.conversationPanelFooterLeft}>

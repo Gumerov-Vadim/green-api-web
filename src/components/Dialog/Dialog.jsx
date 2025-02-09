@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './Dialog.module.css';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import phoneFormatted from '../../util/phoneFormatted';
+import Button from '../UI/Button/Button';
+import Close from '../SVG/Close';
 
-const Dialog = ({phone, name, getAvatarWithCache,...props}) => {
+const Dialog = ({phone, name, getAvatarWithCache, removeDialog, ...props}) => {
     const [avatar, setAvatar] = useState(null);
     
     useEffect(() => {
@@ -28,7 +30,11 @@ const Dialog = ({phone, name, getAvatarWithCache,...props}) => {
             <UserAvatar avatar={avatar}/>
         </div>
         <div className={styles.dialogName}>{phoneFormatted(name)}</div>
+        <Button data-close className={styles.dialogClose}>
+            <Close/>
+        </Button>
     </li>;
+
 };
 
 export default Dialog;
