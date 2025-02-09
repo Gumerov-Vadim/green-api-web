@@ -20,21 +20,34 @@ const Chat = () => {
         console.log(message);
     }
 
+    const phoneFormatted = (phone) =>{
+        let phoneCopy = phone.split('').reverse().join('');
+        phoneCopy = phoneCopy.slice(0,2) + 
+                    '-' + 
+                    phoneCopy.slice(2,4) +
+                    '-' +
+                    phoneCopy.slice(4,7) +
+                    ' ' +
+                    phoneCopy.slice(7,10) +
+                    ' ' +
+                    phoneCopy.slice(10) +
+                    "+";
+        return phoneCopy.split('').reverse().join('')
+    }
+    
+
     return (
         <div className={styles.chat}>
                         <div className={styles.chatHeader}>
                             <div className={styles.chatHeaderLeft}>
-                            <div className={styles.chatHeaderLeftUser}>
-
-                                
-                            <div className={styles.chatHeaderLeftUserAvatar}>
-                                <UserAvatar avatar={userData?.avatar} />
-                            </div>
-
-
+                            <div className={styles.chatHeaderLeftUser}> 
+                                                               
+                                <UserAvatar className={styles.chatHeaderLeftUserAvatar} avatar={userData?.avatar} />
+                            
                             <div className={styles.chatHeaderLeftUserName}>
-                                <h3>{userData?.name||phone}</h3>
+                                <p>{userData?.name||phoneFormatted(phone)}</p>
                             </div>
+
 
                             </div>
                             </div>
@@ -43,8 +56,9 @@ const Chat = () => {
                         <div className={styles.chatBody}>
                         </div>
 
-                        <Editor onSendMessage={handleSendMessage} />
+                        <Editor className={styles.chatEditor} onSendMessage={handleSendMessage} />
         </div>
+
     )
 }
 

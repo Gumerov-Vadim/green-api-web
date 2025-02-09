@@ -11,7 +11,7 @@ const MainPage = () => {
         <div className={styles.mainPage}>
             <ConversationPanel />
             <Chat />
-            <Button onClick={logout}>Выйти</Button>
+            {/* <Button onClick={logout}>Выйти</Button> */}
         </div>
     )
 }

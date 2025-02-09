@@ -1,19 +1,12 @@
 import React from 'react';
 import ProfileSVG from '../SVG/ProfileSVG';
 
-const UserAvatar = ({ avatar }) => {
-    return (
-        <div className="user-avatar">
-            <div className="user-avatar-image">
-                {avatar && (
-                    <img src={avatar} alt="profile avatar" />
+const UserAvatar = ({ avatar, ...props }) => {
+    return avatar && (
+                    <img src={avatar} alt="profile avatar" {...props} />
                 )||
-                    <ProfileSVG />               
+                    <ProfileSVG {...props} />
                 }
-            </div>
-        </div>
 
-    )
-}
 
 export default UserAvatar;

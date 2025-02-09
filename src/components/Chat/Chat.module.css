@@ -1,24 +1,50 @@
 .chat{
     background-image: url('../../assets/images/chat-background.png');
-}
-.chat-header{
-    background-color: var(--app-background-deeper);
+    background-color: var(--conversation-panel-background);
     background-repeat: repeat;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.chatHeader{
+    background-color: var(--panel-header-background);
+    background-repeat: repeat;
+    height: var(--h-pane-header);
     border-image-outset: 0;
     border-image-repeat: stretch;
     border-image-slice: 100%;
+
     border-image-source: none;
     border-image-width: 1;
     padding: 0.625rem 1rem;
-    width: 100%;
 }
-
-.chat-header-left{
+.chatHeaderLeftUserName{
+    font-size: 1rem;
+    font-weight: 400;
     display: flex;
     align-items: center;
-    
+    margin-left: 1rem;
 }
 
-.chat-header-left-user{
+
+.chatHeaderLeft{
     display: flex;
+    align-items: center;    
+}
+
+
+.chatHeaderLeftUser{
+    display: flex;
+}
+
+.chatHeaderLeftUserAvatar{
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.chatBody{
+    flex-grow: 1;
 }

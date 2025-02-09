@@ -1,0 +1,69 @@
+.conversationPanel{
+    background-color: var(--background-default);
+    width: 390px;
+}
+.conversationPanelHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: relative;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+.conversationPanelHeaderLeftTitle{
+    font-size: 1.375rem;
+}
+
+.AddChat{
+    color: var(--primary);
+}
+.phoneNumberInputContainer{
+    padding: 0.5rem 1rem;
+    position: absolute;
+    left: 0;
+    height: 50px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    bottom: calc(-50px - 1rem);
+
+    width: calc(100% - 2rem);
+    background-color: var(--background-default);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.phoneNumberInputIcons{
+    color: var(--primary);
+    width: 30px;
+    height: 30px;
+}
+@keyframes moveleft{
+    0%{
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(-5%);
+    }
+}
+.phoneNumberInputArrowLeft{
+    width: 30px;
+    height: 30px;
+}
+
+.phoneNumberInputArrowLeft:hover{
+    animation: moveleft 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+.phoneNumberInputPlus {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--background-default);
+    transition: background-color 0.25s ease-in-out;
+}
+.phoneNumberInputPlus:hover {
+    background-color: var(--WDS-cool-gray-75);
+}

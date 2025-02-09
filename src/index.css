@@ -42,9 +42,12 @@
 
   --app-background-stripe: #00a884;
   --WDS-app-wash: #dbd8d4;
+  --WDS-cool-gray-50: #f7f8fa;
+  --WDS-cool-gray-75: #f1f2f4;
   --app-background: #eae6df;
   --app-background-deeper: #d1d7db;
-
+  --background-default: white;
+  
   --primary: #3b4a54;
   --primary-strong: #111b21; /*цвет имени в чате*/
   --secondary: #667781; /*последние сообщения*/
@@ -57,7 +60,9 @@
   --compose-input-border: white;
   --rich-text-panel-background: #f0f2f5;
   --compose-input-background: white;
+  --conversation-panel-background: #efeae2;
 
+  --h-pane-header: 2.75rem;
   --panel-header-background: #f0f2f5;
   --panel-footer-background: #f0f2f5;
 }
