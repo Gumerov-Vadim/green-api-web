@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getAvatar = async (idInstance, apiToken, chatId) => {
     try{        
-        const response = await axios.post(`${process.env.REACT_APP_API_URL}/waInstance${idInstance}/getAvatar/${apiToken}`, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/waInstance${idInstance}/getAvatar/${apiToken}`, {
             chatId
         });
         return response.data;
