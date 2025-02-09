@@ -52,6 +52,7 @@
   --primary-strong: #111b21; /*цвет имени в чате*/
   --secondary: #667781; /*последние сообщения*/
   --light-dark: #767676;
+  --danger: #ea0038;
   --button-primary-background: #008069;
   --button-primary-background-hover: #017561;
 
@@ -61,6 +62,8 @@
   --rich-text-panel-background: #f0f2f5;
   --compose-input-background: white;
   --conversation-panel-background: #efeae2;
+
+  --border-list: #e9edef;
 
   --h-pane-header: 2.75rem;
   --panel-header-background: #f0f2f5;

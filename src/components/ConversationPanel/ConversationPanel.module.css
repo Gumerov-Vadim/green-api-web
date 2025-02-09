@@ -1,7 +1,11 @@
 .conversationPanel{
     background-color: var(--background-default);
     width: 390px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
 .conversationPanelHeader{
     display: flex;
     flex-direction: row;
@@ -66,4 +70,34 @@
 }
 .phoneNumberInputPlus:hover {
     background-color: var(--WDS-cool-gray-75);
+}
+
+.conversationPanelBody{
+    flex-grow: 1;
+}
+.conversationPanelFooter{
+    background-color: var(--panel-footer-background);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+.conversationPanelFooterLeft{
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.logoutButton{
+    padding: 0.5rem;
+    color: var(--danger);
+}
+.logoutButton:hover{
+    border-radius: 50%;
+    background-color: var(--WDS-app-wash);
+}
+.conversationPanelFooterLeftTitle{
+    font-size: 1.25rem;
 }
