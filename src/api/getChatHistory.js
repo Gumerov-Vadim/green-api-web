@@ -5,7 +5,7 @@ export const getChatHistory = async (idInstance, apiToken, chatId) => {
         const response = await axios.post(
             `${import.meta.env.VITE_API_URL}/waInstance${idInstance}/getChatHistory/${apiToken}`,
             {
-                chatId: `${chatId}@c.us`,
+                chatId,
                 limit: 100
             }
         );
