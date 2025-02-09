@@ -19,6 +19,7 @@ A web-based client for interacting with the [Green API](https://green-api.com/) 
 1. Clone the repository:
    ```bash
    git clone https://github.com/Gumerov-Vadim/green-api-web.git
+   cd green-api-web
    ```
 2. Install dependencies:
    ```bash
