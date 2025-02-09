@@ -1,7 +1,6 @@
 .button{
     border: none;
     cursor: pointer;
+    background-color: inherit;
+    padding: 0;
   }
-.button:hover{
-    background-color: var(--button-primary-background-hover);
-}
