@@ -20,7 +20,6 @@ const Chat = ({ phone, messages, addMessage, getUserData }) => {
 
     // При смене контакта сбрасываем флаги для прокрутки
     useEffect(() => {
-        console.log(userData)
         scrollOnceRef.current = false;
         prevScrollHeightRef.current = 0;
     }, [phone]);
@@ -80,7 +79,9 @@ const Chat = ({ phone, messages, addMessage, getUserData }) => {
                     <div className={styles.chatHeader}>
                         <div className={styles.chatHeaderLeft}>
                             <div className={styles.chatHeaderLeftUser}>
-                                <UserAvatar className={styles.chatHeaderLeftUserAvatar} avatar={userData?.avatar} />
+                                <UserAvatar
+                                className={styles.chatHeaderLeftUserAvatar}
+                                avatar={userData?.avatar} />
                                 <div className={styles.chatHeaderLeftUserName}>
                                     <p>{userData?.name || phoneFormatted(phone)}</p>
                                 </div>
