@@ -24,7 +24,6 @@ const ConversationPanel = ({pickConversation, saveUser, removeUser, savedUsers, 
     const { logout } = useContext(AuthContext);
 
     const [userAvatar, setUserAvatar] = useState(null);
-
     useEffect(() => {
         getAvatar(userPhone).then(avatar => {
             setUserAvatar(avatar);
@@ -106,7 +105,7 @@ const ConversationPanel = ({pickConversation, saveUser, removeUser, savedUsers, 
 
             <div className={styles.conversationPanelFooter}>
                 <div className={styles.conversationPanelFooterLeft}>
-                    <Button>
+                    <Button className={styles.conversationPanelFooterLeftAvatar}>
                         <UserAvatar avatar={userAvatar||null}/>
                     </Button>
                     <h1 className={styles.conversationPanelFooterLeftTitle}>{phoneFormatted(userPhone)}</h1>
