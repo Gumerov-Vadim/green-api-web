@@ -1,4 +1,5 @@
 import axios from 'axios';
+import handleRateLimitError from './handleRateLimitError';
 
 const sendMessage = async (idInstance, apiToken, chatId, message) => {
     try {
@@ -9,10 +10,12 @@ const sendMessage = async (idInstance, apiToken, chatId, message) => {
           message
         }
       );
-
       return response.data;
     } catch (error) {
-      throw new Error('Ошибка отправки сообщения');
+      // Обработка ошибки превышения лимита запросов
+      handleRateLimitError(error);
+      console.log("Ошибка отправки сообщения:", error);
+      throw error;
     }
   };
 
