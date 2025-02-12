@@ -135,6 +135,7 @@ const MainPage = () => {
                         const text = notification.body.messageData.textMessageData.textMessage;
                         const isMe = notification.body.senderId === `${authData.phone}@c.us`;
                         const userId = notification.body.senderData.chatId.split('@')[0];
+
                         setMessages((prevMessages) => ({
                             ...prevMessages,
                             [userId]: [...(prevMessages[userId] || []), {
@@ -144,9 +145,13 @@ const MainPage = () => {
                                 isMe,
                             } ]
                         }));
-                        if(!savedUsers.includes(userId)){
-                            setSavedUsers((prevSavedUsers) => [...prevSavedUsers, userId]);
-                        }
+
+                        setSavedUsers((prevSavedUsers) =>{
+                            if(prevSavedUsers.includes(userId)){
+                                return prevSavedUsers;
+                            }
+                            return [...prevSavedUsers, userId]
+                        });
                     } catch (error) {
                         console.log(`Ошибка получения сообщения: ${error}`);
                     }
