@@ -13,7 +13,6 @@ const Chat = ({ phone, messages, addMessage, getUserData }) => {
 
     const [userData, setUserData] = useState(null);
     const chatBodyRef = useRef(null);
-
     // Флаг, чтобы первоначально прокрутить историю до конца один раз
     const scrollOnceRef = useRef(false);
     // Ref для хранения предыдущей высоты контейнера (для отслеживания добавленной высоты)
@@ -21,6 +20,7 @@ const Chat = ({ phone, messages, addMessage, getUserData }) => {
 
     // При смене контакта сбрасываем флаги для прокрутки
     useEffect(() => {
+        console.log(userData)
         scrollOnceRef.current = false;
         prevScrollHeightRef.current = 0;
     }, [phone]);
@@ -80,7 +80,7 @@ const Chat = ({ phone, messages, addMessage, getUserData }) => {
                     <div className={styles.chatHeader}>
                         <div className={styles.chatHeaderLeft}>
                             <div className={styles.chatHeaderLeftUser}>
-                                <UserAvatar className={styles.chatHeaderLeftUserAvatar} avatar={userData?.avatar?.urlAvatar} />
+                                <UserAvatar className={styles.chatHeaderLeftUserAvatar} avatar={userData?.avatar} />
                                 <div className={styles.chatHeaderLeftUserName}>
                                     <p>{userData?.name || phoneFormatted(phone)}</p>
                                 </div>
