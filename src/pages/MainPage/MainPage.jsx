@@ -184,7 +184,7 @@ const MainPage = () => {
             isMounted = false;
             clearTimeout(timeout);
         };
-    }, [idInstance, apiToken, savedUsers]);
+    }, [idInstance, apiToken]);
 
     return (
         <div className={styles.mainPage}>
