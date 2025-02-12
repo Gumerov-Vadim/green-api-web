@@ -26,6 +26,7 @@ const Chat = ({ phone, messages, addMessage, getUserData }) => {
     }, [phone]);
 
     useEffect(() => {
+        if(!phone) return;
         async function fetchUserData() {
             try {
                 const data = await getUserData(phone);

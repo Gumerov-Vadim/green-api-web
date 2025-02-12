@@ -10,7 +10,7 @@ const Dialog = ({phone, name, getAvatar, getUserData, ...props}) => {
     const [userData, setUserData] = useState(null);
     useEffect(() => {
         getAvatar(phone).then(avatar => {
-            setAvatar(avatar.urlAvatar);
+            setAvatar(avatar);
         }).catch(error => {
             console.log(`Ошибка получения аватара ${phone}: ${error}`);
             setAvatar(null);

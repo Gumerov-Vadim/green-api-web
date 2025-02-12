@@ -34,7 +34,7 @@ const MainPage = () => {
             return usersData[phone];
         }
         const userData = await getContactInfo(idInstance, apiToken, `${phone}@c.us`);
-        userData.then(userData => {
+        try{
             setUsersData((prevUsersData) => ({
                 ...prevUsersData,
                 [phone]: {
@@ -42,10 +42,10 @@ const MainPage = () => {
                 }
             }));
             return userData;
-        }).catch(error => {
+        }catch(error) {
             console.log(`Ошибка получения данных пользователя ${phone}: ${error}`);
-            const avatar = getUserAvatar(idInstance, apiToken, `${phone}@c.us`);
-            avatar.then(avatar => {
+            const avatar = await getUserAvatar(idInstance, apiToken, `${phone}@c.us`);
+           try{
                 setUsersData((prevUsersData) => ({
                     ...prevUsersData,
                     [phone]: {
@@ -57,14 +57,14 @@ const MainPage = () => {
                     name: phone,
                     avatar: avatar.urlAvatar
                 };
-            }).catch(error => {
+            } catch (error) {
                 console.log(`Ошибка получения аватара пользователя ${phone}: ${error}`);
                 return {
                     name: phone,
                     avatar: null
                 };
-            });
-        });
+            };
+        };
     };
     const getUserAvatar = async (phone) => {
         if(usersData[phone]?.avatar){
