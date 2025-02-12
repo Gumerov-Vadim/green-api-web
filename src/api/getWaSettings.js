@@ -1,11 +1,9 @@
-import axios from 'axios';
-import handleRateLimitError from './handleRateLimitError';
+import axiosInstance from './axiosInstance';
 const getWaSettings = async (idInstance, apiToken) => {
     try{
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/waInstance${idInstance}/getWaSettings/${apiToken}`);
+        const response = await axiosInstance.get(`/waInstance${idInstance}/getWaSettings/${apiToken}`);
         return response.data;
     } catch (error) {
-        handleRateLimitError(error);
         throw new Error('Ошибка получения настроек');
     }
 };

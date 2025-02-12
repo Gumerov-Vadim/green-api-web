@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 const receiveNotification = async (idInstance, apiToken) => {
     try {
-        const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/waInstance${idInstance}/receiveNotification/${apiToken}`
+        const response = await axiosInstance.get(
+            `/waInstance${idInstance}/receiveNotification/${apiToken}`
         );
         return response.data;
 

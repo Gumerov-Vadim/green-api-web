@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 const deleteNotification = async (idInstance, apiToken, receiptId) => {
     try {
-        const response = await axios.delete(
+        const response = await axiosInstance.delete(
 
-            `${import.meta.env.VITE_API_URL}/waInstance${idInstance}/deleteNotification/${apiToken}/${receiptId}`
+            `/waInstance${idInstance}/deleteNotification/${apiToken}/${receiptId}`
         );
         return response.data;
 

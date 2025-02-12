@@ -1,13 +1,11 @@
-import axios from 'axios';
-import handleRateLimitError from './handleRateLimitError';
+import axiosInstance from './axiosInstance';
 const getAvatar = async (idInstance, apiToken, chatId) => {
     try{      
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/waInstance${idInstance}/getAvatar/${apiToken}`, {
+        const response = await axiosInstance.post(`/waInstance${idInstance}/getAvatar/${apiToken}`, {
             chatId
         });
         return response.data;
     } catch (error) {
-        handleRateLimitError(error);
         throw new Error('Ошибка получения аватара');
     }
 }

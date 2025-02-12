@@ -1,10 +1,9 @@
-import axios from 'axios';
-import handleRateLimitError from './handleRateLimitError';
+import axiosInstance from './axiosInstance';
 
 const sendMessage = async (idInstance, apiToken, chatId, message) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/waInstance${idInstance}/sendMessage/${apiToken}`,
+      const response = await axiosInstance.post(
+        `/waInstance${idInstance}/sendMessage/${apiToken}`,
         {
           chatId,
           message
@@ -12,10 +11,7 @@ const sendMessage = async (idInstance, apiToken, chatId, message) => {
       );
       return response.data;
     } catch (error) {
-      // Обработка ошибки превышения лимита запросов
-      handleRateLimitError(error);
-      console.log("Ошибка отправки сообщения:", error);
-      throw error;
+      throw new Error('Ошибка отправки сообщения');
     }
   };
 

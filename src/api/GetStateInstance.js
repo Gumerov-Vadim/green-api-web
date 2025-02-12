@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 const getStateInstance = async (idInstance, apiTokenInstance) => {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/waInstance${idInstance}/getStateInstance/${apiTokenInstance}`);
+    const response = await axiosInstance.get(`/waInstance${idInstance}/getStateInstance/${apiTokenInstance}`);
     return response.data;
 };
 

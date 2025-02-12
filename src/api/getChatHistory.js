@@ -1,9 +1,8 @@
-import axios from 'axios';
-import handleRateLimitError from './handleRateLimitError';
+import axiosInstance from './axiosInstance';
 export const getChatHistory = async (idInstance, apiToken, chatId) => {
     try {
-        const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/waInstance${idInstance}/getChatHistory/${apiToken}`,
+        const response = await axiosInstance.post(
+            `/waInstance${idInstance}/getChatHistory/${apiToken}`,
             {
                 chatId,
                 limit: 100
@@ -12,7 +11,6 @@ export const getChatHistory = async (idInstance, apiToken, chatId) => {
 
         return response.data;
     } catch (error) {
-        handleRateLimitError(error);
         throw new Error('Ошибка получения истории чата');
     }
 }
