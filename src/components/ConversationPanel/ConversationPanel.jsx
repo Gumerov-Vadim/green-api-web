@@ -5,7 +5,6 @@ import styles from './ConversationPanel.module.css';
 import PhoneNumberInput from '../UI/PhoneNumberInput/PhoneNumberInput';
 import ArrowLeft from '../SVG/ArrowLeft';
 import Plus from '../SVG/Plus';
-import getAvatar from '../../api/getAvatar';
 import useAuth from '../../hooks/useAuth';
 import DialogsList from '../DialogsList/DialogsList';
 import Logout from '../SVG/Logout';
@@ -13,59 +12,37 @@ import UserAvatar from '../UserAvatar/UserAvatar';
 import AuthContext from '../../context/AuthContext';
 import phoneFormatted from '../../util/phoneFormatted';
 
-const ConversationPanel = ({pickConversation}) => {
-    const initDialogs = JSON.parse(localStorage.getItem('savedDialogs'))||[];
+const ConversationPanel = ({pickConversation, saveUser, removeUser, savedUsers, getUserData, getAvatar}) => {
     const {authData} = useAuth();
-    const {idInstance, apiToken, phone:userPhone} = authData;
+    const {phone:userPhone} = authData;
 
-    const [dialogs, setDialogs] = useState(initDialogs);
     const [isPhoneNumberInputOpen, setIsPhoneNumberInputOpen] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [isWrongPhoneNumber, setIsWrongPhoneNumber] = useState(false);
     const [isCorrectPhoneNumber, setIsCorrectPhoneNumber] = useState(false);
 
-    const [avatarCache, setAvatarCache] = useState({});
-    const [userAvatar, setUserAvatar] = useState(null);
-    
     const { logout } = useContext(AuthContext);
+
+    const [userAvatar, setUserAvatar] = useState(null);
+
+    useEffect(() => {
+        getAvatar(userPhone).then(avatar => {
+            setUserAvatar(avatar);
+        }).catch(error => {
+            console.log(`Ошибка получения аватара пользователя ${userPhone}: ${error}`);
+        });
+    }, [userPhone]);
 
     const onContactClick = (e) =>{
         const li = e.target.closest('li[data-phone]');
         if (!li) return;
         const conversation = li.dataset.phone;
         if(e.target.closest('button[data-close]')){
-            removeDialog(conversation);
+            removeUser(conversation);
             return;
         }
 
         pickConversation(conversation);
-    }
-
-    useEffect(() => {
-        const avatar = getAvatar(idInstance, apiToken, `${userPhone}@c.us`);
-
-        avatar.then(avatar => {
-            setUserAvatar(avatar.urlAvatar);
-        }).catch(error => {
-            setUserAvatar(null);
-        });
-
-    },[]);
-
-    const getAvatarWithCache = async (phone) => {
-        if(avatarCache[phone]) {
-            return avatarCache[phone];
-        }
-
-        const avatar = await getAvatar(idInstance, apiToken, `${phone}@c.us`);
-
-        avatar.then(avatar => {
-            setAvatarCache(prev => ({...prev, [phone]: avatar.urlAvatar}));
-        }).catch(error => {
-            setAvatarCache(prev => ({...prev, [phone]: null}));
-        });
-
-        return avatarCache[phone];
     }
 
     const togglePhoneNumberInput = () => {
@@ -79,28 +56,16 @@ const ConversationPanel = ({pickConversation}) => {
         };
         const phone = phoneNumber.slice(1);
 
-        if(dialogs.includes(phone)) {
+        if(savedUsers.includes(phone)) {
             return;
         };
 
-        setDialogs([...dialogs, phone]);
-
+        saveUser(phone);
 
         setIsWrongPhoneNumber(false);
         setIsCorrectPhoneNumber(false);
         setPhoneNumber('');       
     }
-
-    function removeDialog(phoneNumber){
-        console.log(phoneNumber,dialogs.map(dialog => +dialog));
-        setDialogs(dialogs.filter(dialog => +dialog !== +phoneNumber));
-    }
-
-
-
-    useEffect(() => {
-        localStorage.setItem('savedDialogs', JSON.stringify(dialogs));
-    }, [dialogs]);
 
     return (
         <div className={styles.conversationPanel}>
@@ -132,16 +97,17 @@ const ConversationPanel = ({pickConversation}) => {
 
             <div className={styles.conversationPanelBody}>
                <DialogsList
-               dialogslist={dialogs}
-               getAvatarWithCache ={getAvatarWithCache}
+               dialogslist={savedUsers}
                onContactClick={onContactClick}
+               getUserData={getUserData}
+               getAvatar={getAvatar}
                />
             </div>
 
             <div className={styles.conversationPanelFooter}>
                 <div className={styles.conversationPanelFooterLeft}>
                     <Button>
-                        <UserAvatar avatar={userAvatar}/>
+                        <UserAvatar avatar={userAvatar||null}/>
                     </Button>
                     <h1 className={styles.conversationPanelFooterLeftTitle}>{phoneFormatted(userPhone)}</h1>
                 </div>

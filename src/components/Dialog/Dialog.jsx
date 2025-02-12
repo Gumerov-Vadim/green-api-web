@@ -5,33 +5,35 @@ import phoneFormatted from '../../util/phoneFormatted';
 import Button from '../UI/Button/Button';
 import Close from '../SVG/Close';
 
-const Dialog = ({phone, name, getAvatarWithCache, removeDialog, ...props}) => {
+const Dialog = ({phone, name, getAvatar, getUserData, ...props}) => {
     const [avatar, setAvatar] = useState(null);
-    
+    const [userData, setUserData] = useState(null);
     useEffect(() => {
-        try {
-            getAvatarWithCache(phone).then(avatar => {
-                setAvatar(avatar.urlAvatar);
-            }).catch(error => {
-                setAvatar(null);
-            });
-        } catch (error) {
+        getAvatar(phone).then(avatar => {
+            setAvatar(avatar.urlAvatar);
+        }).catch(error => {
+            console.log(`Ошибка получения аватара ${phone}: ${error}`);
             setAvatar(null);
-        }
-
+        });
     }, [phone]);
-    
+    useEffect(() => {
+        getUserData(phone).then(userData => {
+            setUserData(userData);
+        }).catch(error => {
+            console.log(`Ошибка получения данных пользователя ${phone}: ${error}`);
+        });
+    }, [phone]);
+
     return <li
         className={styles.dialog}
         {...props}
         >
         <div className={styles.dialogAvatar}>
-
             <UserAvatar avatar={avatar}/>
         </div>
-        <div className={styles.dialogName}>{phoneFormatted(name)}</div>
+        <div className={styles.dialogName}>{userData?.name||phoneFormatted(phone)}</div>
         <Button data-close className={styles.dialogClose}>
-            <Close/>
+            <Close className={styles.dialogCloseIcon}/>
         </Button>
     </li>;
 

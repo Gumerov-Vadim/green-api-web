@@ -6,10 +6,9 @@ import Login from './pages/Login/Login';
 
 function App() {
   const { authData, login, logout } = useAuth();
-
   return (
     <AuthContext.Provider value={{ authData, login, logout }}>
-      {authData.isLoggedIn ? <MainPage /> : <Login />}
+      {authData.isLoggedIn ? <MainPage/> : <Login />}
     </AuthContext.Provider>
   );
 }

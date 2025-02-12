@@ -10,8 +10,6 @@ const Message = ({isMe, text, withTail}) => {
         </span>}
         {text}
         </li>;
-
-
 };
 
 export default Message;

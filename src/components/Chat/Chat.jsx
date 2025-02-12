@@ -1,23 +1,17 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { getContactInfo } from '../../api/getContactInfo';
 import Editor from '../UI/Editor/Editor';
 import useAuth from '../../hooks/useAuth';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './Chat.module.css';
-import getAvatar from '../../api/getAvatar';
 import phoneFormatted from '../../util/phoneFormatted';
 import MessageList from '../MessageList/MessageList';
-import { getChatHistory } from '../../api/getChatHistory';
-import receiveNotification from '../../api/receiveNotification';
-import deleteNotification from '../../api/deleteNotification';
 import sendMessage from '../../api/sendMessage';
 
-const Chat = ({ phone }) => {
+const Chat = ({ phone, messages, addMessage, getUserData }) => {
     const { authData } = useAuth();
     const { idInstance, apiToken } = authData;
 
     const [userData, setUserData] = useState(null);
-    const [messages, setMessages] = useState([]);
     const chatBodyRef = useRef(null);
 
     // Флаг, чтобы первоначально прокрутить историю до конца один раз
@@ -32,103 +26,16 @@ const Chat = ({ phone }) => {
     }, [phone]);
 
     useEffect(() => {
-        getContactInfo(idInstance, apiToken, `${phone}@c.us`)
-            .then(data => setUserData(data))
-            .catch(error => {
-                console.log(`Ошибка получения данных контакта: ${error}`);
-                const name = phoneFormatted("" + phone);
-                getAvatar(idInstance, apiToken, `${phone}@c.us`)
-                    .then(avatar => {
-                        setUserData({
-                            name,
-                            avatar,
-                        });
-                    })
-                    .catch(error => {
-                        console.log(`Ошибка получения аватара: ${error}`);
-                        setUserData({
-                            name,
-                            avatar: null,
-                        });
-                    });
-            });
-    }, [idInstance, apiToken, phone]);
-
-    // Загрузка старых сообщений
-    useEffect(() => {
-        getChatHistory(idInstance, apiToken, `${phone}@c.us`)
-            .then(history => {
-                history.reverse();
-                for (let i = 0; i < history.length; i++) {
-                    if (i === 0) {
-                        history[i].withTail = true;
-                        continue;
-                    }
-                    if (history[i].type !== history[i - 1].type) {
-                        history[i].withTail = true;
-                        continue;
-                    }
-                    history[i].withTail = false;
-                }
-                setMessages(
-                    history.map(m => ({
-                        id: m.idMessage,
-                        withTail: m.withTail,
-                        text: m.textMessage,
-                        isMe: m.type === "outgoing"
-                    }))
-                );
-            })
-            .catch(error => {
-                console.log(`Ошибка получения истории сообщений: ${error}`);
-            });
-    }, [idInstance, apiToken, phone]);
-
-    // Получение новых сообщений
-    useEffect(() => {
-        let isMounted = true;
-        let timeout;
-        receiveMessage();
-        function receiveMessage() {
-            const notificationPromise = receiveNotification(idInstance, apiToken);
-            notificationPromise
-                .then(not => {
-                    if (!isMounted) return;
-                    try {
-                        const id = not.body.idMessage;
-                        const text = not.body.messageData.textMessageData.textMessage;
-                        const isMe = not.body.senderId === `${authData.phone}@c.us`;
-                        setMessages(prev => [
-                            ...prev,
-                            { id, withTail: prev.slice(-1)[0].isMe !== isMe, text, isMe }
-                        ]);
-                    } catch (error) {
-                        console.log(`Ошибка получения сообщения: ${error}`);
-                    }
-                    deleteNotification(idInstance, apiToken, not.receiptId)
-                        .then(response => {
-                            if (response.result) {
-                                clearTimeout(timeout);
-                                receiveMessage();
-                            }
-                        })
-                        .catch(error => {
-                            console.log(`Ошибка удаления уведомления: ${error}`);
-                        });
-                })
-                .catch(error => {
-                    console.log(`Ошибка получения уведомления: ${error}`);
-                })
-                .finally(() => {
-                    timeout = setTimeout(receiveMessage, 5000);
-                });
+        async function fetchUserData() {
+            try {
+                const data = await getUserData(phone);
+                setUserData(data);
+            } catch (error) {
+                console.log(`Ошибка получения данных пользователя ${phone}: ${error}`);
+            }
         }
-
-        return () => {
-            isMounted = false;
-            clearTimeout(timeout);
-        };
-    }, [idInstance, apiToken]);
+        fetchUserData();
+    }, [phone]);
 
     // Прокрутка вниз при изменении messages
     // Если история загружается впервые, прокручиваем до конца,
@@ -153,10 +60,12 @@ const Chat = ({ phone }) => {
     const handleSendMessage = (message) => {
         sendMessage(idInstance, apiToken, `${phone}@c.us`, message)
             .then(response => {
-                setMessages(prev => [
-                    ...prev,
-                    { id: response.idMessage, withTail: true, text: message, isMe: true }
-                ]);
+                addMessage({
+                    id: response.idMessage,
+                    withTail: messages.length === 0 || messages.at(-1).isMe !== true,
+                    text: message,
+                    isMe: true
+                });
             })
             .catch(error => {
                 console.log(`Ошибка отправки сообщения: ${error}`);
@@ -179,7 +88,7 @@ const Chat = ({ phone }) => {
                     </div>
 
                     <div className={styles.chatBody} ref={chatBodyRef}>
-                        <MessageList messages={messages} />
+                        <MessageList messages={messages||[]} />
                     </div>
 
                     <Editor className={styles.chatEditor} onSendMessage={handleSendMessage} />

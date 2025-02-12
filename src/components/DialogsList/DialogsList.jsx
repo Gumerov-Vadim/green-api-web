@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './DialogsList.module.css';
 import Dialog from '../Dialog/Dialog';
 
-const DialogsList = ({dialogslist, getAvatarWithCache, onContactClick}) => {
+const DialogsList = ({dialogslist, getAvatar,getUserData, onContactClick}) => {
     
     return <ul className={styles.dialogsList}>
 
@@ -11,7 +11,8 @@ const DialogsList = ({dialogslist, getAvatarWithCache, onContactClick}) => {
             key={dialog}
             phone={dialog}
             name={dialog}
-            getAvatarWithCache={getAvatarWithCache}
+            getAvatar={getAvatar}
+            getUserData={getUserData}
             onClick={onContactClick}
             data-phone={dialog}
             />
